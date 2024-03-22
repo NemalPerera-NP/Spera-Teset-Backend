@@ -1,8 +1,21 @@
 const mongoose = require("mongoose");
 
+/*
+Module 01 – Login and Signup
+Name - Last Name
+Email
+Username 
+Password
+*/
+
 const UserSchema = new mongoose.Schema(
   {
-    name: {
+    firstname: {
+      type: String,
+      required: [true, "Please add name"],
+      trim: true,
+    },
+    lastname: {
       type: String,
       required: [true, "Please add name"],
       trim: true,
@@ -11,6 +24,11 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: [true, "Please add Email Address"],
       unique: true,
+      trim: true,
+    },
+    username: {
+      type: String,
+      required: [true, "Please add username"],
       trim: true,
     },
 
@@ -24,12 +42,6 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "user",
     },
-    favorites: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Crypto",
-      },
-    ],
   },
   { timestamps: true }
 );
