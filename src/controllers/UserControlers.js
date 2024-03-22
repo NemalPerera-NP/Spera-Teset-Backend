@@ -1,6 +1,7 @@
 //setting up JSON token required
 
 const userModel = require("../models/UserModels");
+const { hashPassword } = require("../helpers/authHelper");
 
 //User Signup / Register function
 
@@ -42,6 +43,7 @@ const userRegisterControler = async (req, res) => {
     //exsisting user
     // const exsistingUser = await userModel.findOne({email:email})
     const exsistingUser = await userModel.findOne({ email });
+    console.log("exsistingUser.........", exsistingUser);
     if (exsistingUser) {
       return res.status(500).send({
         success: false,
@@ -49,13 +51,16 @@ const userRegisterControler = async (req, res) => {
       });
     }
 
+    //hashed password
+    const hashedPassword = await hashPassword(password);
+
     //save user
     const user = await userModel({
       firstname,
       lastname,
       email,
       username,
-      password,
+      password: hashedPassword,
     }).save();
 
     return res.status(201).send({
