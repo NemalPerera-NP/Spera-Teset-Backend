@@ -1,11 +1,16 @@
 const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
+const cryptoRoutes = require("./rotes/cryptoRotes");
 
 //define a port for the server
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+
+//to correctly handle JSON payloads in the HTTP request body (common in API requests), use the express.json() middleware.
+app.use(express.json());
+app.use("/api/crypto", cryptoRoutes); // Use the routes
 
 app.get("", (req, res) => {
   res.send("Initial codeing on crypto project!");
