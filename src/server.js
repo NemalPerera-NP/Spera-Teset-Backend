@@ -2,6 +2,10 @@ const express = require("express");
 const dotenv = require("dotenv");
 dotenv.config();
 const cryptoRoutes = require("./rotes/cryptoRotes");
+const connectDB = require("./config/db");
+
+// Connect to MongoDB
+connectDB();
 
 //define a port for the server
 const PORT = process.env.PORT || 3000;
