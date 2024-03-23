@@ -34,6 +34,14 @@ app.post("/api/auth/login", loginControl);
 // Protected route for fetching cryptocurrency price,
 app.get("/api/crypto/price/:id", authenticateToken, getCryptoPriceController);
 
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
+
+
+
+
 //swagger
 // const options = {
 //   definition: {
@@ -53,7 +61,3 @@ app.get("/api/crypto/price/:id", authenticateToken, getCryptoPriceController);
 
 // const swaggerSpec = swaggerJsdoc(options);
 // app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});

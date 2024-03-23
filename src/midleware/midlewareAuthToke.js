@@ -1,12 +1,5 @@
-//const expressJWT = require("express-jwt");
-//var { expressjwt: jwt } = require("express-jwt");
 const jwt = require("jsonwebtoken");
 
-//midleware
-// const requireSignIn = jwt({
-//   secret: process.env.JWT_SECRET,
-//   algorithms: ["HS256"],
-// });
 
 const authenticateToken = (req, res, next) => {
   // Extract the token from the Authorization header
