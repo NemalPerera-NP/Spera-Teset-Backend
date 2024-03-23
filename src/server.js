@@ -5,12 +5,15 @@ const connectDB = require("./config/db");
 const swaggerUi = require("swagger-ui-express");
 // const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerDocument = require("../swagger_output.json");
+const authenticateToken = require("./midleware/midlewareAuthToke");
 
 //importing controllers
 const {
   userRegisterControler,
   loginControl,
 } = require("./controllers/UserControlers");
+
+const { getCryptoPrice } = require("../src/services/cryptoService");
 
 dotenv.config();
 // Connect to MongoDB
@@ -33,6 +36,22 @@ app.get("/", (req, res) => {
 app.post("/api/auth/signup", userRegisterControler);
 app.post("/api/auth/login", loginControl);
 
+//GET
+app.get("/api/crypto/price/:id", authenticateToken, async (req, res) => {
+  const { id } = req.params; // Cryptocurrency ID, e.g., "bitcoin"
+  try {
+    const price = await getCryptoPrice(id);
+    res.json({ success: true, id, price });
+  } catch (error) {
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Failed to fetch cryptocurrency price",
+        error: error.message,
+      });
+  }
+});
 //swagger
 // const options = {
 //   definition: {
