@@ -1,4 +1,3 @@
-
 //setting up JSON token required
 
 const userModel = require("../models/UserModels");
@@ -34,7 +33,7 @@ const userRegisterControler = async (req, res) => {
         message: "username is required",
       });
     }
-    if (!password || password.length < 6) {
+    if (!password || password.length <= 6) {
       return res.status(400).send({
         success: false,
         message: "password is required and 6 charector long",
@@ -44,7 +43,7 @@ const userRegisterControler = async (req, res) => {
     //exsisting user
     // const exsistingUser = await userModel.findOne({email:email})
     const exsistingUser = await userModel.findOne({ email });
-    console.log("exsistingUser.........", exsistingUser);
+    //console.log("exsistingUser.........", exsistingUser);
     if (exsistingUser) {
       return res.status(500).send({
         success: false,
@@ -69,7 +68,7 @@ const userRegisterControler = async (req, res) => {
       message: "Registration Successful please login",
     });
   } catch (error) {
-    console.log(error);
+    //console.log(error);
     return res.status(500).send({
       success: false,
       message: "Error in Register API",
