@@ -11,4 +11,9 @@ const hashPassword = async (password) => {
     throw err; // Throws any errors to be caught by the caller
   }
 };
-module.exports = { hashPassword };
+
+//COMPARE || DECRYPT FUNCTION
+const comparePassword = (password,hashedpssw) =>{
+  return bcrypt.compare(password,hashedpssw)
+}
+module.exports = { hashPassword ,comparePassword};

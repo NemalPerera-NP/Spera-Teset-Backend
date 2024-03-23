@@ -1,7 +1,7 @@
 //setting up JSON token required
 
 const userModel = require("../models/UserModels");
-const { hashPassword } = require("../helpers/authHelper");
+const { hashPassword, comparePassword } = require("../helpers/authHelper");
 
 //User Signup / Register function
 
@@ -77,4 +77,54 @@ const userRegisterControler = async (req, res) => {
   }
 };
 
-module.exports = { userRegisterControler };
+//LOGIN Function
+const loginControl = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    //validation
+    if (!username || !password) {
+      return res.status(500).send({
+        success: false,
+        message: "Please provide Username or Password",
+      });
+    }
+
+    //findind the user
+    const loginuser = await userModel.findOne({ username });
+
+    if (!loginuser) {
+      return res.status(500).send({
+        success: false,
+        message: "User not found",
+      });
+    }
+    console.log("User---", loginuser);
+
+    //if user exists password should be matched
+    const matchPssw = await comparePassword(password, loginuser.password);
+    console.log("matched Password---", matchPssw);
+    if (!matchPssw) {
+      return res.status(500).send({
+        success: false,
+        message: "Invalid Password",
+      });
+    } else {
+      //username is valid and password also matched hence should be able to login
+      return res.status(201).send({
+        success: true,
+        message: "Login",
+        loginuser,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).send({
+      success: false,
+      message: "Error in Login API",
+      error,
+    });
+  }
+};
+
+module.exports = { userRegisterControler, loginControl };
