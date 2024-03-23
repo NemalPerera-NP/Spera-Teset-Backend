@@ -19,7 +19,7 @@ connectDB();
 
 //routes for testing the API
 app.post("/api/auth/signup", userRegisterControler);
-app.post("/api/auth/login", loginControl);
+
 
 //test cases for user Registration
 describe("POST /api/auth/signup", () => {
@@ -137,23 +137,6 @@ describe("POST /api/auth/signup", () => {
   });
 });
 
-//test cases for user login
-// describe('POST /api/auth/login', () => {
-//   it('should require a firstname', async () => {
-//     const response = await supertest(app)
-//       .post('/api/auth/signup')
-//       .send({
-//         lastname: 'Doe',
-//         email: 'john@example.com',
-//         username: 'johnDoe',
-//         password: 'password123',
-//       });
-//     expect(response.statusCode).toBe(400);
-//     expect(response.body.message).toEqual('First name is required');
-//   });
-
-//   // Add more tests here for other validation scenarios
-// });
 afterAll(async () => {
   await mongoose.connection.close();
 });
