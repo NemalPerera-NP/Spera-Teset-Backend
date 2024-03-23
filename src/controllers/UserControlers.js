@@ -1,5 +1,5 @@
 //setting up JSON token required
-
+const JWT = require("jsonwebtoken");
 const userModel = require("../models/UserModels");
 const { hashPassword, comparePassword } = require("../helpers/authHelper");
 
@@ -109,14 +109,20 @@ const loginControl = async (req, res) => {
         success: false,
         message: "Invalid Password",
       });
-    } else {
-      //username is valid and password also matched hence should be able to login
-      return res.status(201).send({
-        success: true,
-        message: "Login",
-        loginuser,
-      });
     }
+
+    console.log("Token........", process.env.JWT_SECRET);
+    const token = JWT.sign({ _id: loginuser._id }, process.env.JWT_SECRET, {
+      expiresIn: "1h",
+    });
+
+    //username is valid and password also matched hence should be able to login
+    return res.status(201).send({
+      success: true,
+      message: "Login",
+      token,
+      loginuser,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).send({
