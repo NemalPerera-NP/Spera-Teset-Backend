@@ -1,27 +1,21 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const connectDB = require("./config/db");
-
 const swaggerUi = require("swagger-ui-express");
 // const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerDocument = require("../swagger_output.json");
 const authenticateToken = require("./midleware/midlewareAuthToke");
-
-//importing controllers
 const {
   userRegisterControler,
   loginControl,
 } = require("./controllers/UserControlers");
-
-const { getCryptoPrice } = require("../src/services/cryptoService");
+const {getCryptoPriceController} = require("./controllers/cryptoController");
 
 dotenv.config();
-// Connect to MongoDB
-connectDB();
+connectDB(); // Connect to MongoDB
 
 const app = express();
-//define a port for the server
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080; //define a port for the server
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //url - http://localhost:8080/api-docs
@@ -37,21 +31,9 @@ app.post("/api/auth/signup", userRegisterControler);
 app.post("/api/auth/login", loginControl);
 
 //GET
-app.get("/api/crypto/price/:id", authenticateToken, async (req, res) => {
-  const { id } = req.params; // Cryptocurrency ID, e.g., "bitcoin"
-  try {
-    const price = await getCryptoPrice(id);
-    res.json({ success: true, id, price });
-  } catch (error) {
-    res
-      .status(500)
-      .json({
-        success: false,
-        message: "Failed to fetch cryptocurrency price",
-        error: error.message,
-      });
-  }
-});
+// Protected route for fetching cryptocurrency price,
+app.get("/api/crypto/price/:id", authenticateToken, getCryptoPriceController);
+
 //swagger
 // const options = {
 //   definition: {
