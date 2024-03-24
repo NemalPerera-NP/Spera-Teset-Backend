@@ -9,7 +9,7 @@ const {
   userRegisterControler,
   loginControl,
 } = require("./controllers/UserControlers");
-const {getCryptoPriceController} = require("./controllers/cryptoController");
+const {saveCryptoPriceController} = require("./controllers/cryptoController");
 
 dotenv.config();
 connectDB(); // Connect to MongoDB
@@ -32,7 +32,7 @@ app.post("/api/auth/login", loginControl);
 
 //GET
 // Protected route for fetching cryptocurrency price,
-app.get("/api/crypto/price/:id", authenticateToken, getCryptoPriceController);
+app.get("/api/crypto/price/:id", authenticateToken, saveCryptoPriceController);
 
 
 app.listen(PORT, () => {
