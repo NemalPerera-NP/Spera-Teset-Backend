@@ -1,5 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const connectDB = require("./config/db");
 const swaggerUi = require("swagger-ui-express");
 // const swaggerJsdoc = require("swagger-jsdoc");
@@ -21,6 +22,8 @@ const PORT = process.env.PORT || 8080; //define a port for the server
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+app.use(cors());
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument)); //url - http://localhost:8080/api-docs
 

@@ -117,7 +117,7 @@ const loginControl = async (req, res) => {
     });
 
     //username is valid and password also matched hence should be able to login
-    return res.status(201).send({
+    return res.status(200).send({
       success: true,
       message: "Login",
       token,
