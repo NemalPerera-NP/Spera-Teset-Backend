@@ -84,7 +84,7 @@ const loginControl = async (req, res) => {
 
     //validation
     if (!username || !password) {
-      return res.status(500).send({
+      return res.status(400).send({
         success: false,
         message: "Please provide Username or Password",
       });
@@ -94,7 +94,7 @@ const loginControl = async (req, res) => {
     const loginuser = await userModel.findOne({ username });
 
     if (!loginuser) {
-      return res.status(500).send({
+      return res.status(401).send({
         success: false,
         message: "User not found",
       });
@@ -105,7 +105,7 @@ const loginControl = async (req, res) => {
     const matchPssw = await comparePassword(password, loginuser.password);
     console.log("matched Password---", matchPssw);
     if (!matchPssw) {
-      return res.status(500).send({
+      return res.status(401).send({
         success: false,
         message: "Invalid Password",
       });
