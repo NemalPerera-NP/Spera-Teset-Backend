@@ -55,6 +55,18 @@ const getCryptoPrice = async (
   }
 };
 
+//service to get all the unique crypto ids from the data base
+const getUniqueCryptoId = async () => {
+  try {
+    const uniqueCryptoIds = await CryptoPrice.distinct("cryptoId");
+    return uniqueCryptoIds;
+  } catch (error) {
+    console.error("Error fetching unique cryptoIds:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   getCryptoPrice,
+  getUniqueCryptoId
 };

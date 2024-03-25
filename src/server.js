@@ -10,8 +10,14 @@ const {
   userRegisterControler,
   loginControl,
 } = require("./controllers/UserControlers");
-const { saveCryptoPriceController } = require("./controllers/cryptoController");
+const {
+  saveCryptoPriceController,
+  getUniqueCryptoIdsController,
+} = require("./controllers/cryptoController");
 const { getCryptoPrice } = require("./services/cryptoService");
+const {
+  addUserFavoritesController,updateUserFavoritesController,
+} = require("./controllers/userFavoriteListController");
 
 dotenv.config();
 connectDB(); // Connect to MongoDB
@@ -42,10 +48,22 @@ app.get("/", (req, res) => {
 
 app.post("/api/auth/signup", userRegisterControler);
 app.post("/api/auth/login", loginControl);
+// Endpoint to add/update user's favorite cryptocurrencies
+app.post("/api/user/favorites", addUserFavoritesController);
+
 
 //GET
+app.get("/api/crypto/unique-ids", getUniqueCryptoIdsController);
+
+//PUT
+app.patch("/api/user/favorites",updateUserFavoritesController)
+
 // Protected route for fetching cryptocurrency price,
 // app.get("/api/crypto/price/:id", authenticateToken, saveCryptoPriceController);
+
+
+
+
 
 //swagger
 // const options = {

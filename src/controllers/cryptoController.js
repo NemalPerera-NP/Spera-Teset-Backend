@@ -1,4 +1,4 @@
-const { getCryptoPrice } = require("../services/cryptoService");
+const { getCryptoPrice,getUniqueCryptoId } = require("../services/cryptoService");
 
 const saveCryptoPriceController = async (req, res) => {
   const { id } = req.params;
@@ -10,11 +10,6 @@ const saveCryptoPriceController = async (req, res) => {
       message: "Crypto prices updated successfully",
     });
 
-    // res.json({
-    //   success: true,
-    //   id,
-    //   price,
-    // });
   } catch (error) {
     //console.error(`Failed to fetch price for ${id}: ${error}`);
     res.status(500).json({
@@ -25,4 +20,17 @@ const saveCryptoPriceController = async (req, res) => {
   }
 };
 
-module.exports = { saveCryptoPriceController };
+const getUniqueCryptoIdsController = async (req, res) => {
+  try {
+    const uniqueCryptoIds = await getUniqueCryptoId();
+    res.status(201).json({ success: true, data: uniqueCryptoIds });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ 
+      success: false, 
+      message: "Failed to fetch unique cryptoIds" });
+ 
+  }
+}
+
+module.exports = { saveCryptoPriceController,getUniqueCryptoIdsController };
