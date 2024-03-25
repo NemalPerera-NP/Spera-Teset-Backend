@@ -45,9 +45,18 @@ const userRegisterControler = async (req, res) => {
     const exsistingUser = await userModel.findOne({ email });
     //console.log("exsistingUser.........", exsistingUser);
     if (exsistingUser) {
-      return res.status(500).send({
+      return res.status(401).send({
         success: false,
         message: "User Already Registered with This Email",
+      });
+    }
+
+    const exsistingusername = await userModel.findOne({ username });
+    //console.log("exsistingusername.........", exsistingusername);
+    if (exsistingusername) {
+      return res.status(401).send({
+        success: false,
+        message: "Username Already Exists",
       });
     }
 
