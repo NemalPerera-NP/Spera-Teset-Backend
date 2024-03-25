@@ -16,7 +16,7 @@ const {
 } = require("./controllers/cryptoController");
 const { getCryptoPrice } = require("./services/cryptoService");
 const {
-  addUserFavoritesController,updateUserFavoritesController,
+  addUserFavoritesController,updateUserFavoritesController,removeUserFavoritesController,
 } = require("./controllers/userFavoriteListController");
 
 dotenv.config();
@@ -57,6 +57,9 @@ app.get("/api/crypto/unique-ids", getUniqueCryptoIdsController);
 
 //PUT
 app.patch("/api/user/favorites",updateUserFavoritesController)
+
+//DELETE
+app.delete("/api/user/favorites", removeUserFavoritesController);
 
 // Protected route for fetching cryptocurrency price,
 // app.get("/api/crypto/price/:id", authenticateToken, saveCryptoPriceController);

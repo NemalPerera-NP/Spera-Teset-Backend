@@ -61,4 +61,29 @@ const updateUserFav = async (userId, cryptoId) => {
   }
 };
 
-module.exports = { addUserFav, updateUserFav };
+//function to delete
+const removeFavListItems =async(userId, cryptoId)=>{
+  try {
+
+    const updateFavlist = await UserFavorites.findOneAndUpdate(
+      { userId },
+      { $pull: { cryptoIds: { $in: cryptoId } } },      
+      { new: true } 
+    )
+    if(!updateFavlist){
+      return {
+        success: false,
+        message: "Favorites not found or cryptoId not in favorites",
+      };
+    }
+
+      return {success: true,data: updateFavlist,};
+    
+    
+  } catch (error) {
+    console.error("Error updating user favorite cryptocurrencies list:", error);
+    throw error;
+  }
+}
+
+module.exports = { addUserFav, updateUserFav,removeFavListItems };
