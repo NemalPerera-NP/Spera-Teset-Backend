@@ -106,7 +106,7 @@ const removeUserFavoritesController = async (req, res) => {
     });
   }
 };
-
+// Controller for API to get all CryptoId's in a users Favorite lists if that user has a Favorite Crypto list
 const getUserFavoritemsController = async (req, res) => {
   const { userId } = req.params;
   try {

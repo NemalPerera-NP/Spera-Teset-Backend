@@ -7,7 +7,7 @@ const CryptoPrice = require("../models/CryptoPriceModel");
 
 const BASE_URL = "https://api.coingecko.com/api/v3";
 
-//cryptoId = "bitcoin"
+//fetch crypto price form coingecko.com and save it in the DB
 const getCryptoPrice = async (
   cryptoIds = ["bitcoin", "ethereum", "ripple", "cardano", "solana", "dogecoin"]
 ) => {
@@ -50,5 +50,5 @@ const getUniqueCryptoId = async () => {
 
 module.exports = {
   getCryptoPrice,
-  getUniqueCryptoId
+  getUniqueCryptoId,
 };

@@ -1,5 +1,6 @@
 const { getCryptoPrice,getUniqueCryptoId } = require("../services/cryptoService");
 
+/*
 const saveCryptoPriceController = async (req, res) => {
   const { id } = req.params;
   try {
@@ -18,8 +19,10 @@ const saveCryptoPriceController = async (req, res) => {
       error: error.message,
     });
   }
-};
+};*/
 
+
+//controller to get all the unique crypto ids from the data base
 const getUniqueCryptoIdsController = async (req, res) => {
   try {
     const uniqueCryptoIds = await getUniqueCryptoId();
@@ -33,4 +36,4 @@ const getUniqueCryptoIdsController = async (req, res) => {
   }
 }
 
-module.exports = { saveCryptoPriceController,getUniqueCryptoIdsController };
+module.exports = { getUniqueCryptoIdsController };

@@ -28,7 +28,8 @@ const addUserFav = async (userId, cryptoId) => {
   }
 };
 
-//function to Update
+//servicefunction to update a exsisting User Favorite Cryptocurency list based on userId
+
 const updateUserFav = async (userId, cryptoId) => {
   //const userExist = await UserFavorites.findOne({ userId });
   console.log("cryptoId........", cryptoId);
@@ -81,6 +82,7 @@ const removeFavListItems = async (userId, cryptoId) => {
     throw error;
   }
 };
+// Service function for controller to get all CryptoId's in a users Favorite lists if that user has a Favorite Crypto list
 
 const getFavListItems = async (userId) => {
   try {
