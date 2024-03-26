@@ -16,7 +16,10 @@ const {
 } = require("./controllers/cryptoController");
 const { getCryptoPrice } = require("./services/cryptoService");
 const {
-  addUserFavoritesController,updateUserFavoritesController,removeUserFavoritesController,
+  addUserFavoritesController,
+  updateUserFavoritesController,
+  removeUserFavoritesController,
+  getUserFavoritemsController,
 } = require("./controllers/userFavoriteListController");
 
 dotenv.config();
@@ -49,24 +52,41 @@ app.get("/", (req, res) => {
 app.post("/api/auth/signup", userRegisterControler);
 app.post("/api/auth/login", loginControl);
 // Endpoint to add/update user's favorite cryptocurrencies
-app.post("/api/user/favorites", addUserFavoritesController);
-
+app.post("/api/user/favorites",authenticateToken, addUserFavoritesController);
 
 //GET
-app.get("/api/crypto/unique-ids", getUniqueCryptoIdsController);
+app.get(
+  "/api/crypto/unique-ids",
+  authenticateToken,
+  getUniqueCryptoIdsController
+);
+app.get(
+  "/api/crypto/unique-ids",
+  authenticateToken,
+  getUniqueCryptoIdsController
+);
+app.get(
+  "/api/user/favorites/:userId",
+  authenticateToken,
+  getUserFavoritemsController
+);
 
 //PUT
-app.patch("/api/user/favorites",updateUserFavoritesController)
+app.patch(
+  "/api/user/favorites",
+  authenticateToken,
+  updateUserFavoritesController
+);
 
 //DELETE
-app.delete("/api/user/favorites", removeUserFavoritesController);
+app.delete(
+  "/api/user/favorites",
+  authenticateToken,
+  removeUserFavoritesController
+);
 
 // Protected route for fetching cryptocurrency price,
 // app.get("/api/crypto/price/:id", authenticateToken, saveCryptoPriceController);
-
-
-
-
 
 //swagger
 // const options = {

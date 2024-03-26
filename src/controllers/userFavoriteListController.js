@@ -2,6 +2,7 @@ const {
   addUserFav,
   updateUserFav,
   removeFavListItems,
+  getFavListItems,
 } = require("../services/userFavoritesListService");
 
 //controller to call the service file function to create a new User Favorite Cryptocurency list
@@ -78,7 +79,7 @@ const updateUserFavoritesController = async (req, res) => {
   }
 };
 
-//
+//controller to call the service file function to remove items from a exsisting User Favorite Cryptocurency list
 const removeUserFavoritesController = async (req, res) => {
   const { userId, cryptoIds } = req.body;
   try {
@@ -105,8 +106,34 @@ const removeUserFavoritesController = async (req, res) => {
   }
 };
 
+const getUserFavoritemsController = async(req, res)=>{
+  const { userId } = req.params;
+  try {
+    const result = await getFavListItems(userId);
+    if (result.success) {
+      res.status(200).json({
+        success: true,
+        message: "Favorites fetched successfully",
+        data: result.data,
+      });
+    } else {
+      res.status(404).send({
+        success: false,
+        message: "Favorites not found",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while fetchng favorites",
+    });
+  }
+}
+
 module.exports = {
   addUserFavoritesController,
   updateUserFavoritesController,
   removeUserFavoritesController,
+  getUserFavoritemsController,
 };

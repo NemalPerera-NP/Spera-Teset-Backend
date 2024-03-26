@@ -34,7 +34,6 @@ const updateUserFav = async (userId, cryptoId) => {
   console.log("cryptoId........", cryptoId);
   console.log("userId........", userId);
 
-
   try {
     const updateFavlist = await UserFavorites.findOneAndUpdate(
       { userId: userId },
@@ -62,28 +61,54 @@ const updateUserFav = async (userId, cryptoId) => {
 };
 
 //function to delete
-const removeFavListItems =async(userId, cryptoId)=>{
+const removeFavListItems = async (userId, cryptoId) => {
   try {
-
     const updateFavlist = await UserFavorites.findOneAndUpdate(
       { userId },
-      { $pull: { cryptoIds: { $in: cryptoId } } },      
-      { new: true } 
-    )
-    if(!updateFavlist){
+      { $pull: { cryptoIds: { $in: cryptoId } } },
+      { new: true }
+    );
+    if (!updateFavlist) {
       return {
         success: false,
         message: "Favorites not found or cryptoId not in favorites",
       };
     }
 
-      return {success: true,data: updateFavlist,};
-    
-    
+    return { success: true, data: updateFavlist };
   } catch (error) {
     console.error("Error updating user favorite cryptocurrencies list:", error);
     throw error;
   }
-}
+};
 
-module.exports = { addUserFav, updateUserFav,removeFavListItems };
+const getFavListItems = async (userId) => {
+  try {
+   
+        const getUserFavItems = await UserFavorites.findOne({
+      userId:userId,
+    });
+    console.log("getUserFavItems....", getUserFavItems);
+    if (getUserFavItems) {
+      return {
+        success: true,
+        data: getUserFavItems.cryptoIds,
+      };
+    } else {
+      return {
+        success: false,
+        message: "No favorites found for this user",
+      };
+    }
+  } catch (error) {
+    console.error("Error in getting user Favorite list items:", error);
+    throw error;
+  }
+};
+
+module.exports = {
+  addUserFav,
+  updateUserFav,
+  removeFavListItems,
+  getFavListItems,
+};
