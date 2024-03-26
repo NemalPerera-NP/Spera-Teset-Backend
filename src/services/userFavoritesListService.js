@@ -84,9 +84,8 @@ const removeFavListItems = async (userId, cryptoId) => {
 
 const getFavListItems = async (userId) => {
   try {
-   
-        const getUserFavItems = await UserFavorites.findOne({
-      userId:userId,
+    const getUserFavItems = await UserFavorites.findOne({
+      userId: userId,
     });
     console.log("getUserFavItems....", getUserFavItems);
     if (getUserFavItems) {
@@ -106,9 +105,27 @@ const getFavListItems = async (userId) => {
   }
 };
 
+// Service to replace or create a new user favorite cryptocurrencies list
+const replaceOrCreateUserFav = async (userId, cryptoIds) => {
+  try {
+    // Find the document for the specified user and replace it entirely
+    const updatedFavorites = await UserFavorites.findOneAndReplace(
+      { userId },
+      { userId, cryptoIds },
+      { upsert: true, new: true, returnDocument: "after" } // Create a new one if it doesn't exist
+    );
+
+    return { success: true, data: updatedFavorites };
+  } catch (error) {
+    console.error("Error in replacing or creating user favorites:", error);
+    throw error;
+  }
+};
+
 module.exports = {
   addUserFav,
   updateUserFav,
   removeFavListItems,
   getFavListItems,
+  replaceOrCreateUserFav,
 };

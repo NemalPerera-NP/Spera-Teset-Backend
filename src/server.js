@@ -20,6 +20,7 @@ const {
   updateUserFavoritesController,
   removeUserFavoritesController,
   getUserFavoritemsController,
+  replaceOrCreateUserFavoritesController,
 } = require("./controllers/userFavoriteListController");
 
 dotenv.config();
@@ -52,7 +53,13 @@ app.get("/", (req, res) => {
 app.post("/api/auth/signup", userRegisterControler);
 app.post("/api/auth/login", loginControl);
 // Endpoint to add/update user's favorite cryptocurrencies
-app.post("/api/user/favorites",authenticateToken, addUserFavoritesController);
+app.post("/api/user/favorites", authenticateToken, addUserFavoritesController);
+// Endpoint to create as a new or update a exsisting user's favorite cryptocurrencies
+app.post(
+  "/api/user/all-in-one/favorites",
+  authenticateToken,
+  replaceOrCreateUserFavoritesController
+);
 
 //GET
 app.get(

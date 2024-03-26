@@ -3,6 +3,7 @@ const {
   updateUserFav,
   removeFavListItems,
   getFavListItems,
+  replaceOrCreateUserFav,
 } = require("../services/userFavoritesListService");
 
 //controller to call the service file function to create a new User Favorite Cryptocurency list
@@ -106,7 +107,7 @@ const removeUserFavoritesController = async (req, res) => {
   }
 };
 
-const getUserFavoritemsController = async(req, res)=>{
+const getUserFavoritemsController = async (req, res) => {
   const { userId } = req.params;
   try {
     const result = await getFavListItems(userId);
@@ -129,11 +130,43 @@ const getUserFavoritemsController = async(req, res)=>{
       message: "An error occurred while fetchng favorites",
     });
   }
-}
+};
+
+
+
+
+// Controller to handle the request to replace or create a new user favorite cryptocurrencies list
+const replaceOrCreateUserFavoritesController = async (req, res) => {
+  const { userId, cryptoIds } = req.body;
+
+  try {
+    if (!userId || !cryptoIds || !Array.isArray(cryptoIds)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid input data",
+      });
+    }
+
+    const result = await replaceOrCreateUserFav(userId, cryptoIds);
+    console.log("Favorites updated or created:", result.data);
+    res.status(201).json({
+      success: true,
+      message: "Favorites updated successfully",
+      data: result.data,
+    });
+  } catch (error) {
+    console.error("Error in replacing or creating user favorites:", error);
+    res.status(500).json({
+      success: false,
+      message: "An error occurred while updating favorites",
+    });
+  }
+};
 
 module.exports = {
   addUserFavoritesController,
   updateUserFavoritesController,
   removeUserFavoritesController,
   getUserFavoritemsController,
+  replaceOrCreateUserFavoritesController,
 };
