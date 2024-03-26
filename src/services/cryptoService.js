@@ -31,24 +31,6 @@ const getCryptoPrice = async (
 
     await Promise.all(cryptoPriceList);
     console.log("Crypto prices updated successfully");
-
-    // Iterate over each cryptocurrency and insert a new document in the database
-    // const cryptoPriceList = Object.entries(response.data).map(([id, data]) => {
-    //   const cryptoPrices = new CryptoPrice({
-    //     cryptoId: id,
-    //     price: data.usd,
-    //     updatedDate: new Date(),
-    //   });
-    //   return cryptoPrices.save(); // Save the new document
-    // });
-
-    // Wait for all save operations to complete
-    // console.log("priceSavePromises..........", cryptoPriceList);
-    // await Promise.all(cryptoPriceList);
-    // console.log("response.data[cryptoId].usd>>>>>>>>", response.data);
-    //return response.data;
-
-    //return response.data[cryptoId].usd;
   } catch (error) {
     console.error(`Failed to fetch prices: ${error.message}`);
     throw error;

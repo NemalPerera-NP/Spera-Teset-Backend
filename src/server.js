@@ -23,6 +23,9 @@ const {
   replaceOrCreateUserFavoritesController,
 } = require("./controllers/userFavoriteListController");
 
+const {
+  getLatestCryptoPricesController,
+} = require("./controllers/cryptoPriceController");
 dotenv.config();
 connectDB(); // Connect to MongoDB
 
@@ -77,6 +80,7 @@ app.get(
   authenticateToken,
   getUserFavoritemsController
 );
+app.get("/api/crypto/latest-prices", getLatestCryptoPricesController);
 
 //PUT
 app.patch(
