@@ -16,7 +16,7 @@ const userRegisterController = async (req, res) => {
         });
     }
 };
-//controller for handel user Login API call
+//controller for handel user Login API
 const loginController = async (req, res) => {
     try {
         const { loginuser, token } = await loginUser(req.body);

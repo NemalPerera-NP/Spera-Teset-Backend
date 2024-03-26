@@ -25,30 +25,195 @@
     },
     "/api/auth/signup": {
       "post": {
-        "description": "",
+        "summary": "User registration.",
+        "description": "Registers a new user with the given details.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User registration data.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstname": {
+                  "type": "string",
+                  "example": "John"
+                },
+                "lastname": {
+                  "type": "string",
+                  "example": "Doe"
+                },
+                "email": {
+                  "type": "string",
+                  "example": "john.doe@example.com"
+                },
+                "username": {
+                  "type": "string",
+                  "example": "johndoe123"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "securePassword123"
+                }
+              },
+              "required": ["firstname", "lastname", "email", "username", "password"]
+            }
+          }
+        ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "User registered successfully. Please login.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Registration Successful please login"
+                },
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "uniqueUserId"
+                    },
+                    "firstname": {
+                      "type": "string",
+                      "example": "John"
+                    },
+                    "lastname": {
+                      "type": "string",
+                      "example": "Doe"
+                    },
+                    "email": {
+                      "type": "string",
+                      "example": "john.doe@example.com"
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "johndoe123"
+                    }
+                  }
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request. Validation failed or user already exists.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Validation failed or User Already Registered with This Email"
+                }
+              }
+            }
           }
         }
       }
-    },
+    }
+    ,
     "/api/auth/login": {
       "post": {
-        "description": "",
+        "summary": "User login.",
+        "description": "Authenticates a user and returns a token.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "User login credentials.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "example": "user123"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "password123"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "Login successful. Returns token and user details.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Login successful"
+                },
+                "token": {
+                  "type": "string",
+                  "example": "generated.jwt.token"
+                },
+                "loginuser": {
+                  "type": "object",
+                  "properties": {
+                    "_id": {
+                      "type": "string",
+                      "example": "uniqueUserId"
+                    },
+                    "username": {
+                      "type": "string",
+                      "example": "user123"
+                    }
+                  }
+                }
+              }
+            }
           },
           "401": {
-            "description": "Unauthorized"
+            "description": "Unauthorized. Invalid username or password.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Invalid credentials"
+                }
+              }
+            }
           }
         }
       }
-    },
+    }
+    ,
     "/api/user/favorites": {
       "post": {
         "description": "",

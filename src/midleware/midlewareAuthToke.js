@@ -18,7 +18,7 @@ const authenticateToken = (req, res, next) => {
   try {
     // Verify the token
     const decoded = jwt.verify(token,process.env.JWT_SECRET);
-    req.user = decoded; // Add the decoded user data to the request object
+    req.user = decoded; 
     next(); // Proceed to the next middleware/route handler
   } catch (error) {
     return res
@@ -31,4 +31,4 @@ const authenticateToken = (req, res, next) => {
 
 module.exports = authenticateToken;
 
-// module.exports = {requireSignIn}
+
