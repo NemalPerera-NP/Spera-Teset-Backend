@@ -60,12 +60,16 @@ app.post("/api/auth/signup", userRegisterController); //API for User registratio
 
 app.post("/api/auth/login", loginController); //API for user Login//
 
+
+
 app.post(
   "/api/user/favorites",
   authenticateToken,
   addUserFavoritesController
 ); /* Endpoint to add/update user's 
 favorite cryptocurrencies (this API can Only Create a new Fav list this can't be used to update a Exsisting one/*/
+
+
 
 app.post(
   "/api/user/all-in-one/favorites",
@@ -74,18 +78,26 @@ app.post(
 ); /* Endpoint to create as a new or update a exsisting user's favorite cryptocurrencies 
 (this API can Create a new Fav list and this can be used to update a Exsisting one), if this used no need of DELETE and PATCH API's/*/
 
+
+
 //GET
 app.get(
   "/api/crypto/unique-ids",
   authenticateToken,
-  getUniqueCryptoIdsController //to get all the unique crypto ids from the data base/
+  getUniqueCryptoIdsController 
 );
+//to get all the unique crypto ids from the data base/
+
+
 
 app.get(
   "/api/user/favorites/:userId",
   authenticateToken,
-  getUserFavoritemsController // API to get all CryptoId's in a users Favorite lists if that user has a Favorite Crypto list/
-);
+  getUserFavoritemsController 
+);// API to get all CryptoId's in a users Favorite lists if that user has a Favorite Crypto list/
+
+
+
 app.get(
   "/api/crypto/latest-prices",
   authenticateToken,
@@ -93,18 +105,29 @@ app.get(
 ); //API to get the lateset price of all the Cryptocurencies from sercvice function/
 
 //
+
+
+
 app.get(
   "/api/crypto/daily-max-prices",
   authenticateToken,
   getDailyMaxPricesController
 ); //API to get daily maximum pricess of all the CryptoIds/
 
+
+
+
 //PUT
+
+
 app.patch(
   "/api/user/favorites",
   authenticateToken,
   updateUserFavoritesController
 ); //API to update a exsisting User Favorite Cryptocurency list based on userId/
+
+
+
 
 //DELETE
 app.delete(

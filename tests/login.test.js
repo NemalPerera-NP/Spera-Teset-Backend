@@ -5,15 +5,14 @@ const express = require("express");
 const connectDB = require("../src/config/db");
 
 const {
-  userRegisterControler,
-  loginControl,
-} = require("../src/controllers/UserControlers");
+  loginController,
+} = require("../src/controllers/authController");
 
 const app = express();
 app.use(express.json());
 connectDB();
 
-app.post("/api/auth/login", loginControl);
+app.post("/api/auth/login", loginController);
 
 //test cases for user login
 describe("POST /api/auth/login", () => {
@@ -22,7 +21,7 @@ describe("POST /api/auth/login", () => {
     const response = await supertest(app).post("/api/auth/login").send({
       password: "hansana",
     });
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(401);
     expect(response.body.message).toEqual(
       "Please provide Username or Password"
     );
@@ -33,7 +32,7 @@ describe("POST /api/auth/login", () => {
     const response = await supertest(app).post("/api/auth/login").send({
       username: "HSDE",
     });
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(401);
     expect(response.body.message).toEqual(
       "Please provide Username or Password"
     );
@@ -45,28 +44,28 @@ describe("POST /api/auth/login", () => {
       username: "HS",
       password: "hansana",
     });
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(401);
     expect(response.body.message).toEqual("User not found");
   });
 
   //test 04
   it("Invalid Password", async () => {
     const response = await supertest(app).post("/api/auth/login").send({
-      username: "HSDE",
+      username: "12345",
       password: "han",
     });
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toBe(401);
     expect(response.body.message).toEqual("Invalid Password");
   });
 
   //test 05
   it("successfully loged", async () => {
     const response = await supertest(app).post("/api/auth/login").send({
-      username: "nemalP",
-      password: "012345",
+      username: "12345",
+      password: "1234567",
     });
-    expect(response.statusCode).toBe(201);
-    expect(response.body.message).toEqual("Login");
+    expect(response.statusCode).toBe(200);
+    expect(response.body.message).toEqual("Login successful");
   });
 
   // Add more tests here for other validation scenarios

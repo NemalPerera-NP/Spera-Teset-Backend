@@ -8,18 +8,14 @@ const supertest = require("supertest");
 const express = require("express");
 const connectDB = require("../src/config/db");
 
-const {
-  userRegisterControler,
-  loginControl,
-} = require("../src/controllers/UserControlers");
+const { userRegisterController } = require("../src/controllers/authController");
 
 const app = express();
 app.use(express.json());
 connectDB();
 
 //routes for testing the API
-app.post("/api/auth/signup", userRegisterControler);
-
+app.post("/api/auth/signup", userRegisterController);
 
 //test cases for user Registration
 describe("POST /api/auth/signup", () => {
@@ -32,7 +28,7 @@ describe("POST /api/auth/signup", () => {
       password: "password123",
     });
     expect(response.statusCode).toBe(400);
-    expect(response.body.message).toEqual("First name is required");
+    expect(response.body.message).toEqual("Validation failed");
   });
 
   //test 02
@@ -44,7 +40,7 @@ describe("POST /api/auth/signup", () => {
       password: "password123",
     });
     expect(response.statusCode).toBe(400);
-    expect(response.body.message).toEqual("lastname is required");
+    expect(response.body.message).toEqual("Validation failed");
   });
 
   //test 03
@@ -56,7 +52,7 @@ describe("POST /api/auth/signup", () => {
       password: "password123",
     });
     expect(response.statusCode).toBe(400);
-    expect(response.body.message).toEqual("email is required");
+    expect(response.body.message).toEqual("Validation failed");
   });
 
   //test 04
@@ -68,7 +64,7 @@ describe("POST /api/auth/signup", () => {
       password: "password123",
     });
     expect(response.statusCode).toBe(400);
-    expect(response.body.message).toEqual("username is required");
+    expect(response.body.message).toEqual("Validation failed");
   });
 
   //test 05
@@ -80,9 +76,7 @@ describe("POST /api/auth/signup", () => {
       username: "nemalP",
     });
     expect(response.statusCode).toBe(400);
-    expect(response.body.message).toEqual(
-      "password is required and 6 charector long"
-    );
+    expect(response.body.message).toEqual("Validation failed");
   });
 
   //test 06
@@ -95,9 +89,7 @@ describe("POST /api/auth/signup", () => {
       password: "01234",
     });
     expect(response.statusCode).toBe(400);
-    expect(response.body.message).toEqual(
-      "password is required and 6 charector long"
-    );
+    expect(response.body.message).toEqual("Validation failed");
   });
 
   //test 07
@@ -109,7 +101,7 @@ describe("POST /api/auth/signup", () => {
       username: "nemalPp",
       password: "password123",
     });
-    expect(response.statusCode).toBe(500);
+    expect(response.statusCode).toEqual(400);
     expect(response.body.message).toEqual(
       "User Already Registered with This Email"
     );
@@ -120,7 +112,7 @@ describe("POST /api/auth/signup", () => {
     const newUser = {
       firstname: "Test",
       lastname: "User",
-      email: "testusrer@example.com", // Ensure this is unique for each test
+      email: "testusrer@example.com",
       username: "testuser",
       password: "password123",
     };
@@ -129,7 +121,7 @@ describe("POST /api/auth/signup", () => {
       .post("/api/auth/signup")
       .send(newUser);
 
-    expect(response.statusCode).toBe(201);
+    expect(response.statusCode).toEqual(201);
     expect(response.body).toEqual({
       success: true,
       message: "Registration Successful please login",
