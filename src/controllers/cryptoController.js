@@ -26,7 +26,7 @@ const saveCryptoPriceController = async (req, res) => {
 const getUniqueCryptoIdsController = async (req, res) => {
   try {
     const uniqueCryptoIds = await getUniqueCryptoId();
-    res.status(201).json({ success: true, data: uniqueCryptoIds });
+    res.status(200).json({ success: true, data: uniqueCryptoIds });
   } catch (error) {
     console.error(error);
     res.status(500).json({ 
